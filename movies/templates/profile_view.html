@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}CineScope {{ profile.user.username }}'s{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Columna para los datos del perfil -->
+    <div class="col-md-4">
+        <h2>Perfil de {{ profile.user.username }}</h2>
+        <img src="{% if profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}https://pfpmaker.com/images/landing/headshots/features-dual-gradient.svg{% endif %}" 
+             alt="Foto de perfil" 
+             class="img-fluid rounded-circle" 
+             width="300">
+        <!-- Mostrar la biografía con valor por defecto si está vacía -->
+        <p class="{% if not profile.bio %}mt-5{% endif %}">
+            {% if profile.bio %}
+                {{ profile.bio }}
+            {% else %}
+                {{ profile.user.username }}, no tengas miedo y preséntate.
+            {% endif %}
+        </p>
+        <a href="{% url 'profile_edit' %}" class="btn btn-primary">Editar Perfil</a>
+        <!-- Botón para cerrar sesión -->
+        <a href="{% url 'logout' %}" class="btn btn-danger">Cerrar Sesión</a>
+    </div>
+
+    <!-- Columna para las reseñas -->
+    <div class="col-md-8">
+        <h2>Mis Reseñas</h2>
+        <ul class="list-group">
+            {% for review in profile.user.review_set.all %}
+                <li class="list-group-item">
+                    <strong>{{ review.movie.title }} ({{ review.movie.release_year }})</strong>
+                    <p>{{ review.comment }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
