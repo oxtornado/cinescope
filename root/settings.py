@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+
+load_dotenv()
 
 LOGIN_REDIRECT_URL = 'home'  # Redirige a la vista 'home' después de iniciar sesión
 

@@ -1,24 +1,26 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Reseña</title>
-    <!-- Bootstrap para estilos -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Agregar Reseña para {{ movie.title }}</h1>
-        <form method="post">
-            {% csrf_token %}  <!-- Token de seguridad de Django -->
-            <div class="mb-3">
-                <label for="id_comment" class="form-label">Reseña</label>
-                <textarea class="form-control" id="id_comment" name="comment" rows="4" required></textarea>
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card bg-dark text-white border-secondary">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Agregar Reseña para {{ movie.title }}</h1>
+                    <form method="post" action="{% url 'add_review' movie.id %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_comment" class="form-label">Reseña</label>
+                            <textarea class="form-control" id="id_comment" name="comment" rows="4" required></textarea>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-primary">Enviar Reseña</button>
+                            <a href="{% url 'home' %}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar Reseña</button>
-            <a href="{% url 'movie_detail' movie.id %}" class="btn btn-secondary">Cancelar</a>
-        </form>
+        </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}
