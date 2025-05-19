@@ -24,4 +24,5 @@ urlpatterns = [
     path('review/<int:review_id>/add_comment/', views.add_comment, name='add_comment'),
     path('reviews/<int:review_id>/edit/', views.edit_review, name='edit_review'),  # Agregar esta ruta
     path('reviews/<int:review_id>/delete/', views.delete_review, name='delete_review'),  # Agregar esta ruta
+    path('health/', views.health_check, name='health_check'),  # Health check URL
 ]

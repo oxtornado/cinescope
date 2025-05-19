@@ -1,4 +1,4 @@
-from .forms import MovieForm, ReviewForm, ProfileForm, ReviewCommentForm, ProfileEditForm # importamos
+from .forms import MovieForm, ReviewForm, ProfileForm, ReviewCommentForm, ProfileEditForm  # importamos
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import Movie, Review, Profile, ReviewComment, Watchlist
@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
-from django.http import Http404
+from django.http import Http404, JsonResponse
 import requests
 import os
 # Create your views here.
@@ -292,7 +292,7 @@ def delete_review(request, review_id):
 def add_comment(request, review_id):
     review = get_object_or_404(Review, id=review_id)
     if request.method == 'POST':
-        form = CommentForm(request.POST)
+        form = ReviewCommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = request.user
@@ -300,7 +300,7 @@ def add_comment(request, review_id):
             comment.save()
             return redirect('movie_detail', movie_id=review.movie.id)
     else:
-        form = CommentForm()
+        form = ReviewCommentForm()
     return render(request, 'add_comment.html', {'form': form})
 
 
@@ -380,3 +380,6 @@ def delete_comment(request, comment_id):
     comment.delete()
     messages.success(request, 'Comentario eliminado exitosamente')
     return redirect('movie_detail', movie_id=movie_id)
+
+def health_check(request):
+    return JsonResponse({"status": "healthy"})
